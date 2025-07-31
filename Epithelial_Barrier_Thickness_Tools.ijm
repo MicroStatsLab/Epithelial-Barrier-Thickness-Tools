@@ -1,4 +1,5 @@
-// Variable declarations
+// Comments & Code by Sloane Walker (07/2025)
+// Global Variables
 var bw_threshold = 12; //black white threshold
 var scale = 1;
 var unit = "pixel";
