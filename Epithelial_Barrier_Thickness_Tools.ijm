@@ -65,17 +65,20 @@ macro "Thickness Tool - N66C000C111D11D12D13D14D15D16D17D21D22D23D24D25D26D27D31
         
         Roi.getContainedPoints(xpoints, ypoints);
         differences = edgeExtremes(xpoints);
-        Array.getStatistics(differences, min, max, heightAvg, heightStD);
+        Array.getStatistics(differences, min, max, height, StD);
         roiManager("Select", roiManager("Count") - 1);
         roiManager("Delete");
+
+        heightAvg = height / scale;
+        heightStD = height / scale;
 
         //Results & finishing
         n=getValue("results.count");
         setResult("Label", n, names[i]);
-        setResult(unit + "^2", n, areaScaled);
+        setResult("Area^2", n, areaScaled);
         setResult("Area %", n, area_percentage);
         setResult("Avg. Height", n, heightAvg);
-        setResult("St.D. Height", n, heightStD);
+        setResult("Std. Dev. Height", n, heightStD);
         wait(100); //pause for imageJ to catch up (MANDATORY)
 
         run("Rotate 90 Degrees Left");
