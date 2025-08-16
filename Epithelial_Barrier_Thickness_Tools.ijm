@@ -1,5 +1,6 @@
 // Comments & Code by Sloane Walker (07/2025)
 // Global Variables
+// 
 var bw_threshold = 12; //black white threshold
 var scale = 1;
 var unit = "pixel";
@@ -49,8 +50,8 @@ macro "Thickness Tool - N66C000C111D11D12D13D14D15D16D17D21D22D23D24D25D26D27D31
         roiManager("Add"); 
 
         // Getting base statistics
-        getStatistics(area, mean, min, max, std, histogram);
-        pixCount = histogram[255]; //get count of anything you have made white
+        getStatistics(area, mean, min, max, std);
+        pixCount = area; //get count of anything you have made white
         areaScaled = pixCount * Math.pow(1/scale, 2);
         area_percentage = pixCount / (height * width) * 100;
 
@@ -65,20 +66,17 @@ macro "Thickness Tool - N66C000C111D11D12D13D14D15D16D17D21D22D23D24D25D26D27D31
         
         Roi.getContainedPoints(xpoints, ypoints);
         differences = edgeExtremes(xpoints);
-        Array.getStatistics(differences, min, max, height, StD);
+        Array.getStatistics(differences, min, max, heightAvg, heightStD);
         roiManager("Select", roiManager("Count") - 1);
         roiManager("Delete");
-
-        heightAvg = height / scale;
-        heightStD = height / scale;
 
         //Results & finishing
         n=getValue("results.count");
         setResult("Label", n, names[i]);
-        setResult("Area^2", n, areaScaled);
+        setResult(unit + "^2", n, areaScaled);
         setResult("Area %", n, area_percentage);
         setResult("Avg. Height", n, heightAvg);
-        setResult("Std. Dev. Height", n, heightStD);
+        setResult("St.D. Height", n, heightStD);
         wait(100); //pause for imageJ to catch up (MANDATORY)
 
         run("Rotate 90 Degrees Left");
@@ -142,7 +140,7 @@ function thicknessToolOptions()
     scale_choice = Dialog.getChoice();
 
     if (scale_choice == "No"){
-        units = newArray("pixel", "mm", "um", "nm", "Other");
+        units = newArray("pixel", "um", "nm", "mm", "Other");
         Dialog.create("Scale");
         Dialog.addNumber("Pixels per Unit", scale);
         Dialog.addChoice("Unit Label", units);
