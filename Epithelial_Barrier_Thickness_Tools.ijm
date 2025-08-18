@@ -72,7 +72,11 @@ macro "Thickness Tool - N66C000C111D11D12D13D14D15D16D17D21D22D23D24D25D26D27D31
 
         //Results & finishing
         n=getValue("results.count");
-        setResult("Label", n, names[i]);
+        if (i <3){
+        setResult("Label", n, name + colours[i]);}
+        else {
+        setResult("Label", n, name);
+        }
         setResult(unit + "^2", n, areaScaled);
         setResult("Area %", n, area_percentage);
         setResult("Avg. Height", n, heightAvg);
